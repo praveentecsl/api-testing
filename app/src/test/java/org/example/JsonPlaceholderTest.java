@@ -5,6 +5,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import io.restassured.RestAssured;
+
 import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.*;
@@ -12,9 +14,68 @@ import static org.hamcrest.Matchers.*;
 class JsonPlaceholderTest {
     @Test
     public void getExistingPost() {
+        var response = RestAssured.get("https://jsonplaceholder.typicode.com/posts");
+        System.out.println(response.getHeaders());
+
     }
 
     @Test
+    public void getExistingPost_1() {
+        var response = RestAssured.get("https://jsonplaceholder.typicode.com/posts");
+        System.out.println(response.body().asPrettyString());
+
+    }
+
+    @Test
+    public void getExistingPost_2() {
+        var response = RestAssured.get("https://jsonplaceholder.typicode.com/posts");
+        System.out.println(response.body().asPrettyString());
+        System.out.println(response.statusCode());
+
+    }
+
+    @Test
+    public void getExistingPost_3() {
+        var response = RestAssured.get("https://jsonplaceholder.typicode.com/posts");
+        System.out.println(response.body().asPrettyString());
+        System.out.println(response.statusCode());
+        assertEquals(200,response.statusCode());
+
+    }
+
+    @Test
+    public void getExistingPost_4() {
+        var response = RestAssured.get("https://jsonplaceholder.typicode.com/posts/1");
+        System.out.println(response.body().asPrettyString());
+        System.out.println(response.statusCode());
+        assertEquals(200,response.statusCode());
+
+    }
+
+
+
+    @Test
     public void createPost() {
+        var requestbody = """
+        {
+            "title" : "hello world praveen "
+        
+        
+        }
+        
+        
+        """;
+
+        var response = given()
+        .header("content-type","application/json")
+        .body(requestbody)
+        .post("https://jsonplaceholder.typicode.com/posts")
+        .then()
+        .extract()
+        .response();
+
+        System.out.println(response.body().asPrettyString());
+
+
     }
 }
